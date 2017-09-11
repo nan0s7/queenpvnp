@@ -56,8 +56,7 @@ def verify_row(arr):
 		for j in range(len(board_arr)):
 			# 1 = the queen on initial board atm
 			if board_arr[i][j] == 1:
-				verified_array[j] = set_row(board_arr[j], i+1)
-				#verified_array = set_col(verified_array, j, i)
+				verified_array[i] = set_row(board_arr[i], j+1)
 	return verified_array
 
 def verify_col(arr):
@@ -65,24 +64,24 @@ def verify_col(arr):
 	q_loc = []
 	for i in range(len(board_arr)):
 		for j in range(len(board_arr)):
-			if board_arr[j][i] == 1:
-				#verified_array[i] = set_row(board_arr[i], i)
-				verified_array = set_col(verified_array, i, i+1)
+			if board_arr[i][j] == 1:
+				verified_array = set_col(verified_array, j, i+1)
+				break
 	return verified_array
 
-#def verify_diag(arr):
-#	verified_array = empty_arr()
-#	# find q_pos
-#	for i in range(len(arr)):
-#		for j in range(len(arr)):
-#			if arr[j][i] == 1:
-#				start_pos = [i, j]
-#				start_pos = [q_pos[0] - (qpos[0] - 1), q_pos[1] - (q_pos[0] - 1)]
-#	while start_pos[0] <= 8:
-#		arr[start_pos[1]][start_pos[0]] = "x"
-#		start_pos[0] += 1
-#		start_pos[1] += 1
-#	return verified_array
+def verify_diag(arr):
+	verified_array = empty_arr()
+	# find q_pos
+	for i in range(len(arr)):
+		for j in range(len(arr)):
+			if arr[i][j] == 1:
+				q_pos = [j, i]
+				start_pos = [q_pos[0] - (q_pos[0] - 1), q_pos[1] - (q_pos[0] - 1)]
+	while start_pos[0] <= 8:
+		arr[start_pos[1]][start_pos[0]] = "x"
+		start_pos[0] += 1
+		start_pos[1] += 1
+	return verified_array
 
 def validate(arr):
 	result = "none"
@@ -103,6 +102,7 @@ def pick_spot(arr):
 
 test = verify_row(board_arr)
 test2 = verify_col(board_arr)
+test3 = verify_diag(board_arr)
 
 print("Row check:")
 for row in test:
@@ -115,4 +115,5 @@ for row in test2:
 	print(row)
 
 print()
-print("Collisions (row, col): " + validate(test) + ", " + validate(test2))
+print("Collisions (row, col, dia): " + validate(test) + ", " + validate(test2) +\
+		", " + validate(test3))
