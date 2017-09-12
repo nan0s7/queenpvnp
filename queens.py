@@ -13,13 +13,17 @@ board_arr = [\
 	[0, 1, 0, 0, 0, 0, 0, 0] \
 ]
 
+def print_arr(arr):
+	for i in arr:
+		print(i)
+
 def empty_arr():
 	arr = []
 	row = []
 	size = 8
+	for j in range(size):
+		row.append(0)
 	for i in range(size):
-		for j in range(size):
-			row.append(0)
 		arr.append(row)
 	return arr
 
@@ -29,6 +33,11 @@ def row_nums():
 	for i in range(size):
 		row.append(i+1)
 	return row
+
+def insert_in_arr(arr, pos, set_to):
+	for i in range(len(arr[pos[1]])):
+		
+	return new_arr
 
 def set_row(row, set_to):
 	new_row = []
@@ -71,16 +80,28 @@ def verify_col(arr):
 
 def verify_diag(arr):
 	verified_array = empty_arr()
-	# find q_pos
+	start_pos = []
+	# print_arr(verified_array)
 	for i in range(len(arr)):
-		for j in range(len(arr)):
+		for j in range(len(arr[i])):
 			if arr[i][j] == 1:
-				q_pos = [j, i]
-				start_pos = [q_pos[0] - (q_pos[0] - 1), q_pos[1] - (q_pos[0] - 1)]
-	while start_pos[0] <= 8:
-		arr[start_pos[1]][start_pos[0]] = "x"
+				if (j == 0) and (i == 0):
+					start_pos = [j, i]
+				elif j > i:
+					start_pos = [j - i, 0]
+				elif i > j:
+					start_pos = [0, i - j]
+				else:
+					print("Error calculating start_pos!")
+				print(start_pos, end='')
+				print(" col: " + str(j) + " row: " + str(i))
+	while (start_pos[0] < 8) and (start_pos[1] < 8):
+		# print(arr[start_pos[1]][start_pos[0]], end='')
+		# print(start_pos)
+		verified_array[start_pos[1]][start_pos[0]] = "x"
 		start_pos[0] += 1
 		start_pos[1] += 1
+	# print_arr(verified_array)
 	return verified_array
 
 def validate(arr):
@@ -104,15 +125,13 @@ test = verify_row(board_arr)
 test2 = verify_col(board_arr)
 test3 = verify_diag(board_arr)
 
-print("Row check:")
-for row in test:
-	print(row)
-
+# print("Row check:")
+# print_arr(test)
+# print()
+# print("Column check:")
+# print_arr(test2)
 print()
-
-print("Column check:")
-for row in test2:
-	print(row)
+print_arr(test3)
 
 print()
 print("Collisions (row, col, dia): " + validate(test) + ", " + validate(test2) +\
